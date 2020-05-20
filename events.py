@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix=';')
 
 #-----------------------------------------------------------SPLINTER CONFIGURATION----------------------------------------------------------
 
-driver = Browser('chrome') # Browser('chrome', headless=True)
+driver = Browser('chrome', headless=True)
 sele_drv = driver.driver
 
 #-----------------------------------------------------------------FUNCTIONS-----------------------------------------------------------------
@@ -40,7 +40,8 @@ def event():
   driver.find_by_xpath('//*[@class="svg-inline--fa fa-arrow-circle-right fa-w-16 fa-2x"]').click()
   driver.select('durationDays', '4')
   Select(sele_drv.find_element_by_name('vehicleClassRestriction')).select_by_visible_text(cars)
-  driver.find_by_text('Create Championship').click()
+  driver.find_by_class('btn btn-standard btn-medium ').click()
+  # driver.find_by_text('Create Championship').click()
   driver.find_by_text('Advanced Settings').click()
   driver.find_by_text('Use unexpected moments').click()
   driver.find_by_text('Force cockpit camera').click()
@@ -82,8 +83,8 @@ async def dlc(ctx):
   embed = discord.Embed(title='Mistrzostwa Nowej Piwnicy w Dirt Rally 2.0', description='', color=0xff0000)
   # embed.add_field(name='', inline=True)
   embed.add_field(name='Piwnica Rally DLC:trophy:', inline=True)
-  embed.add_field(name='Grupa:', value='{}'.format(cars), inline=True)
-  embed.add_field(name='Rajdy:', value='{}'.format(kraj1[1]), inline=True)
+  embed.add_field(name='Grupa:', value='', inline=True) # '{}'.format(cars)
+  embed.add_field(name='Rajdy:', value='', inline=True) # '{}'.format(kraj1[1])
   # embed.add_field(name='', inline=True)
   embed.set_footer(text='Na każdy rajd są 4 dni. POWODZENIA!', inline=True)
   await ctx.send(ctx.message.channel, embed=embed)
