@@ -40,13 +40,27 @@ def event():
   driver.find_by_xpath('//*[@class="svg-inline--fa fa-arrow-circle-right fa-w-16 fa-2x"]').click()
   driver.select('durationDays', '4')
   Select(sele_drv.find_element_by_name('vehicleClassRestriction')).select_by_visible_text(cars)
-  driver.find_by_class('btn btn-standard btn-medium ').click()
-  # driver.find_by_text('Create Championship').click()
+  # driver.find_by_class('btn btn-standard btn-medium ').click()
+  driver.find_by_text('Create Championship').click()
   driver.find_by_text('Advanced Settings').click()
   driver.find_by_text('Use unexpected moments').click()
   driver.find_by_text('Force cockpit camera').click()
   driver.find_by_text('Allow assists').click()
   driver.find_by_text('Submit Championship').click()
+
+def result():
+  driver.visit(os.getenv('NON_DLC_LINK'))
+  sele_drv.implicitly_wait(20)
+  if 'Codemasters' in driver.title:
+    driver.fill('Email', os.getenv('RACENET_LOGIN'))
+    driver.fill('Password', os.getenv('RACENET_PASSWD') + '\n')
+  sele_drv.implicitly_wait(20)
+  driver.find_by_text('Recent Results').click()
+  while True:
+    next = sele_drv.find_element_by_class_name('ChallengeSelector__next ')
+    if 'ChallengeSelector__next is-disabled' in next.get_attribute('class'):
+      break
+    next.click()
 
 def test():
   driver.visit(os.getenv('CLUB_LINK'))
@@ -89,6 +103,18 @@ async def dlc(ctx):
   embed.set_footer(text='Na każdy rajd są 4 dni. POWODZENIA!', inline=True)
   await ctx.send(ctx.message.channel, embed=embed)
   open('cars.pckl', 'w').close()
+  driver.close()
+
+@bot.command(name='result', help='Tworzy mistrzostwa dla "Piwnica Rally DLC"')
+async def dlc(ctx):
+  result()
+  sele_drv.implicitly_wait(20)
+  embed = discord.Embed(title='Wyniki', description='', color=0xff0000)
+  # embed.add_field(name='', inline=True)
+  embed.add_field(name='Piwnica Rally', inline=True)
+  # embed.add_field(name='', inline=True)
+  embed.set_footer(text='Na każdy rajd są 4 dni. POWODZENIA!', inline=True)
+  await ctx.send(embed=embed)
   driver.close()
 
 bot.run(TOKEN)
