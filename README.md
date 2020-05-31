@@ -1,2 +1,2 @@
 # dr2_events
-Discord bot for creating championships on Racenet
+Discord bot for showing results from Racenet and creating championships.
